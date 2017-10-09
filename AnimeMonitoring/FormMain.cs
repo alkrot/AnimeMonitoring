@@ -179,8 +179,6 @@ namespace AnimeMonitoring
 		private bool RefreshSeries(Model anime, IDocument document)
 		{
             tStatusLabel.Text = "Проверка: " + anime.Name[0] + " Источник: " + anime.GetType().Name;
-            notifyAnime.BalloonTipText = tStatusLabel.Text;
-            notifyAnime.ShowBalloonTip(2000);
             if (anime.GetType().Name == "RutrackerForAnime") (anime as RutrackerForAnime).isNewVideo(document);
             return anime.isNewVideo(document);
 		}
