@@ -23,6 +23,12 @@ namespace AnimeMonitoring
             CreateShortCut(Application.ExecutablePath, Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')), Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\AnimeMonitoring.lnk");
         }
 
+        /// <summary>
+        /// Добавление в автозагрзу
+        /// </summary>
+        /// <param name="FilePath">Путь к запускаемому файлу</param>
+        /// <param name="WorkDir">Рабочая директория</param>
+        /// <param name="SaveTo">Куда сохранить ярлык</param>
         private void CreateShortCut(string FilePath, string WorkDir, string SaveTo)
         {
             var WshShell = new IWshShell_Class();

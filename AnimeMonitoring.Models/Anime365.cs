@@ -10,7 +10,7 @@ namespace AnimeMonitoring.Models
 		{
 		}
 
-		protected override int getCountVideo(IElement document)
+		protected override int GetCountVideo(IElement document)
 		{
 			return document.GetElementsByClassName("m-episode-item").Length;
 		}
@@ -31,7 +31,7 @@ namespace AnimeMonitoring.Models
                     description = descDoc[0].TextContent.Replace("Описание аниме", "");
 				}
                 imageUrl = "https://smotret-anime.ru" + document.QuerySelector("img[itemprop='contentUrl']").GetAttribute("src");
-                count = getCountVideo(document.Body);
+                count = GetCountVideo(document.Body);
 			}
 			catch (Exception er)
 			{

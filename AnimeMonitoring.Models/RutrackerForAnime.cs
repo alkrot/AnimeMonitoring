@@ -11,12 +11,17 @@ namespace AnimeMonitoring.Models
 		{
 		}
 
-		protected override int getCountVideo(IElement document)
+		protected override int GetCountVideo(IElement document)
 		{
 			return 0;
 		}
 
-		private int getCountVideo(string title)
+        /// <summary>
+        /// получение количество видео из заголовка
+        /// </summary>
+        /// <param name="title">Заголовок страницы сайта</param>
+        /// <returns>Количество видео</returns>
+		private int GetCountVideo(string title)
 		{
 			string series = Regex.Match(title, "\\[(\\d+[-\\d+]*) из \\d+\\]").Groups[1].Value.ToString();
 			int count;
@@ -36,26 +41,40 @@ namespace AnimeMonitoring.Models
 			return result;
 		}
 
-		public new bool isNewVideo(IDocument document)
+        /// <summary>
+        /// Проверка есть ли новые видео
+        /// </summary>
+        /// <param name="document">Страница сайта</param>
+        /// <returns>Булево значение</returns>
+		public new bool IsNewVideo(IDocument document)
 		{
-			int getCount = getCountVideo(document.Title);
-			this.newSeries = (count < getCount);
-			bool newSeries = this.newSeries;
-			if (newSeries)
+			int getCount = GetCountVideo(document.Title);
+			bool newS = (count < getCount);
+			if (newS)
 			{
                 Parse(document);
                 count = getCount;
+                newSeries = newS;
 			}
-			return this.newSeries;
+			return newSeries;
 		}
 
-		private string getDescritpion(IElement doc)
+        /// <summary>
+        /// Получение описания (работает несовсем корректно)
+        /// </summary>
+        /// <param name="element">Элемент где оно находится</param>
+        /// <returns></returns>
+		private string getDescritpion(IElement element)
 		{
-			int startIndex = doc.TextContent.IndexOf("Описание:");
-			int endIndex = doc.TextContent.IndexOf("Информационные ссылки", startIndex);
-			return doc.TextContent.Substring(startIndex, endIndex - startIndex).Replace("Описание:", "");
+			int startIndex = element.TextContent.IndexOf("Описание:");
+			int endIndex = element.TextContent.IndexOf("Информационные ссылки", startIndex);
+			return element.TextContent.Substring(startIndex, endIndex - startIndex).Replace("Описание:", "");
 		}
 
+        /// <summary>
+        /// получение информации
+        /// </summary>
+        /// <param name="document">Страница сайта</param>
 		protected override void Parse(IDocument document)
 		{
 			try
@@ -64,14 +83,14 @@ namespace AnimeMonitoring.Models
 				{
 					'/'
 				});
-                count = getCountVideo(document.Title);
+                count = GetCountVideo(document.Title);
                 imageUrl = document.GetElementsByTagName("var")[0].GetAttribute("title");
                 description = getDescritpion(document.Body);                               
                 
 			}
 			catch (Exception er)
 			{
-				base.WriteLog(string.Concat(new object[]
+                WriteLog(string.Concat(new object[]
 				{
 					er.Source,
 					":",

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AnimeMonitoring.Models
 {
-	[Serializable]
+    [Serializable]
 	public abstract class Model
 	{
 		protected string url;
@@ -20,12 +20,10 @@ namespace AnimeMonitoring.Models
 
 		protected bool newSeries = false;
 
-		public string Url
+        #region Свойства
+        public string Url
 		{
-			get
-			{
-				return url;
-			}
+            get => url;
 		}
 
 		public string ImageUrl
@@ -73,33 +71,52 @@ namespace AnimeMonitoring.Models
                 });
 			}
 		}
+        #endregion
 
-		public Model(IDocument document)
+        /// <summary>
+        /// Конструктор для инцилизации класса хранения информации
+        /// </summary>
+        /// <param name="document">Страница сайта</param>
+        public Model(IDocument document)
 		{
             url = document.BaseUri;
             Parse(document);
 		}
 
+        /// <summary>
+        /// Абстрактный метод для извлечение информации с сайта
+        /// </summary>
+        /// <param name="document">Страничка сайта</param>
 		protected abstract void Parse(IDocument document);
 
-		protected abstract int getCountVideo(IElement document);
+        /// <summary>
+        /// Абстрактный метод получение количество видео с страницысайта
+        /// </summary>
+        /// <param name="element">Элемент в котором находится видео</param>
+        /// <returns></returns>
+		protected abstract int GetCountVideo(IElement element);
 
-		public bool isNewVideo(IDocument doc)
+        /// <summary>
+        /// Получение информация есть ли новое видео
+        /// </summary>
+        /// <param name="doc">Страница сайта</param>
+        /// <returns>Булево значение</returns>
+		public bool IsNewVideo(IDocument doc)
 		{
-			int getCount = getCountVideo(doc.Body);
-            newSeries = (count < getCount);
-			bool flag = newSeries;
-			if (flag)
+			int getCount = GetCountVideo(doc.Body);
+            bool newS = (count < getCount);
+			if (newS)
 			{
                 Parse(doc);
                 count = getCount;
+                newSeries = newS;
 			}
 			return newSeries;
 		}
 
 		public override string ToString()
 		{
-			return Name.First() + (newSeries ? "*" : "");
+            return (newSeries ? "*" : "") + Name.First();
 		}
 
 		protected void WriteLog(string txt)

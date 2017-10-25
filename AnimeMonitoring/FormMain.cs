@@ -20,8 +20,6 @@ namespace AnimeMonitoring
             controller = new Controller(this);
 		}
 
-        private Controller controller;
-
         private void btnAdd_Click(object sender, EventArgs e)
 		{
 			string[] lines = tUrl.Lines;
@@ -30,139 +28,32 @@ namespace AnimeMonitoring
 				string url = lines[i];
 				if (!string.IsNullOrEmpty(url))
 				{
-                    controller.addAnime(url);
+                    controller.AddAnime(url);
 				}
 			}
             tUrl.Clear();
 		}
 
-		private void addView(Model anime, ListBox list, TabPage tab)
-		{
-			if (!isHas(list, anime))
-			{
-                timerCheckVideo.Enabled = false;
-				list.Items.Add(anime);
-                tabSite.SelectedTab = tab;
-                timerCheckVideo.Enabled = true;
-			}
-		}
-
-		public void addView(Model m)
-		{
-			string name = m.GetType().Name;
-            switch (name)
-            {
-                case "Anime365":
-                    addView(m, lAnime365, tabAnime365);
-                    break;
-                case "Aniplay":
-                    addView(m, lAniplay, tabAniplay);
-                    break;
-                case "SovetRomantic":
-                    addView(m, lSovetRomantic, tabSR);
-                    break;
-                case "WOA":
-                    addView(m, lWOA, tabWOA); 
-                    break;
-                case "RutrackerForAnime":
-                    addView(m, lRutracker, tabRutracker);
-                    break;
-            }
-		}
-
-		private bool isHas(ListBox box, Model anime)
-		{
-
-			foreach (Model item in box.Items)
-                if (item.Url == anime.Url)
-                    return true;
-
-			return false;
-		}
-
-		private int indexHas(ListBox list, Model anime)
-		{
-			for (int i = 0; i < list.Items.Count; i++)
-			{
-				Model model = (Model)list.Items[i];
-				if (model.Name == anime.Name)
-                    return i;
-			}
-			return -1;
-		}
-
-		private void replaceAnime(ListBox list, Model anime)
-		{
-			int index = indexHas(list, anime);
-			list.Items.RemoveAt(index);
-			list.Items.Insert(index, anime);
-		}
-
-		private void ShowInfo(object sender, EventArgs e)
-		{
-			ListBox list = (ListBox)sender;
-			if (list.Items.Count > 0 && list.SelectedIndex >= 0)
-			{
-				Model model = (Model)list.SelectedItem;
-                pPoster.ImageLocation = model.ImageUrl;
-                rDescription.Text = model.Info;
-                linkAnimeUrl.Text = model.Url;
-			}
-		}
-
-		private void DelAnime(object sender, KeyEventArgs e)
-		{
-			ListBox list = (ListBox)sender;
-			if (list.Items.Count > 0 && list.SelectedIndex >= 0 && e.KeyData == Keys.Delete && MessageBox.Show("Удалить?", ((Model)list.SelectedItem).Name[0], MessageBoxButtons.YesNo) == DialogResult.Yes)
-			{
-				list.Items.RemoveAt(list.SelectedIndex);
-			}
-		}
-
-		private void SaveAnime(string file = "anime.dat")
-		{
-			List<Model> anime = new List<Model>();
-			foreach (TabPage page in tabSite.TabPages)
-			{
-				ListBox list = (ListBox)page.Controls[0];
-				foreach (Model model in list.Items)
-				{
-					anime.Add(model);
-				}
-			}
-			BinaryFormatter formater = new BinaryFormatter();
-			using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
-			{
-				formater.Serialize(fs, anime);
-				MessageBox.Show("Список сохранен");
-			}
-		}
-
-		private void OpenAnime(string file = "anime.dat")
-		{
-			BinaryFormatter format = new BinaryFormatter();
-			using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
-			{
-				if (fs.Length > 0)
-				{
-					List<Model> models = (List<Model>)format.Deserialize(fs);
-					foreach (Model model in models)
-					{
-                        addView(model);
-					}
-				}
-			}
-		}
+		
 
 		private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             SaveAnime();
+            foreach(TabPage tabPage in tabSite.TabPages)
+            {
+                var listBox = tabPage.Controls[0] as ListBox;
+                while(listBox.FindString("*") > -1)
+                {
+                    int index = listBox.FindString("*");
+                    ReplaceAnime(listBox, listBox.Items[index] as Model);
+                }
+            }
 		}
 
 		private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "*.dat|*.dat";
+            openFileDialog.Filter = "*.dat|*.dat|*.al|*.al";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = openFileDialog.FileName;
@@ -174,13 +65,6 @@ namespace AnimeMonitoring
 		{
             OpenAnime();
             tabSite.SelectedIndex = 0;
-		}
-
-		private bool RefreshSeries(Model anime, IDocument document)
-		{
-            tStatusLabel.Text = "Проверка: " + anime.Name[0] + " Источник: " + anime.GetType().Name;
-            if (anime.GetType().Name == "RutrackerForAnime") (anime as RutrackerForAnime).isNewVideo(document);
-            return anime.isNewVideo(document);
 		}
 
 		private void linkAnimeUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -235,13 +119,12 @@ namespace AnimeMonitoring
                         if (RefreshSeries(anime, document))
                         {
                             timerCheckVideo.Enabled = false;
-                            replaceAnime(listBox, anime);
-                            notifyAnime.ShowBalloonTip(3000, "Новая серия", anime.Name[0], ToolTipIcon.Info);
+                            ReplaceAnime(listBox, anime);
                             timerCheckVideo.Enabled = true;
                         }
                     }
                 }
-            }catch(Exception er)
+            }catch
             {
 
             }
@@ -250,7 +133,7 @@ namespace AnimeMonitoring
         private void сохранитькакToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "*.dat|*.dat";
+            saveFileDialog.Filter = "*.dat|*.dat|*.al|*.al";
             if(saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = saveFileDialog.FileName;

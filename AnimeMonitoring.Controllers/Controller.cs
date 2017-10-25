@@ -7,13 +7,20 @@ namespace AnimeMonitoring.Controllers
 	{
 		private FormMain formMain;
 
+        /// <summary>
+        /// Инцилиазция
+        /// </summary>
+        /// <param name="formMain">форма как вьюшка</param>
 		public Controller(FormMain formMain)
 		{
 			this.formMain = formMain;
 		}
 
-		
-		public async void addAnime(string url)
+		/// <summary>
+        /// Определение по ссылки к какой модели отнсится и добавление в список
+        /// </summary>
+        /// <param name="url">ссылка</param>
+		public async void AddAnime(string url)
 		{
             var config = Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync(url);
@@ -21,23 +28,23 @@ namespace AnimeMonitoring.Controllers
             if (url.Contains("smotret-anime.ru"))
             {
                 Anime365 anime365 = new Anime365(document);
-                formMain.addView(anime365);
+                formMain.AddView(anime365);
             }else if (url.Contains("aniplay.tv"))
             {
                 Aniplay aniplay = new Aniplay(document);
-                formMain.addView(aniplay);
+                formMain.AddView(aniplay);
             }else if (url.Contains("sovetromantica.com"))
             {
                 SovetRomantic sovetRomantic = new SovetRomantic(document);
-                formMain.addView(sovetRomantic);
+                formMain.AddView(sovetRomantic);
             }else if (url.Contains("rutracker"))
             {
                 RutrackerForAnime rutrackerForAnime = new RutrackerForAnime(document);
-                formMain.addView(rutrackerForAnime);
+                formMain.AddView(rutrackerForAnime);
             }else if (url.Contains("page-30260297"))
             {
                 WOA woa = new WOA(document);
-                formMain.addView(woa);
+                formMain.AddView(woa);
             }
 		}
 	}
