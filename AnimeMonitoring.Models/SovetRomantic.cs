@@ -10,7 +10,7 @@ namespace AnimeMonitoring.Models
 		{
 		}
 
-		protected override int getCountVideo(IElement document)
+		protected override int GetCountVideo(IElement document)
 		{
             count = document.GetElementsByClassName("episodes-slick_item").Length;
 			return count;
@@ -31,7 +31,7 @@ namespace AnimeMonitoring.Models
 				})[1];
 				IElement descriptionHtml = document.GetElementsByClassName("block--full anime-description")[0];
                 description = descriptionHtml.TextContent;
-                count = getCountVideo(document.Body);
+                count = GetCountVideo(document.Body);
 			}
 			catch (Exception er)
 			{

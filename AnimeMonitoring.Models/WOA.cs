@@ -11,7 +11,7 @@ namespace AnimeMonitoring.Models
 		{
 		}
 
-		protected override int getCountVideo(IElement document)
+		protected override int GetCountVideo(IElement document)
 		{
 			return Regex.Matches(document.InnerHtml.ToString(), "video-[0-9]*_[0_9]*").Count;
 		}
@@ -26,7 +26,7 @@ namespace AnimeMonitoring.Models
 				});
                 imageUrl = document.QuerySelector("img[style='width:280px; height:360px;']").GetAttribute("src");
                 description = document.GetElementsByClassName("wk_table wk_table_no_border")[1].TextContent.Replace("Описание:", "");
-                count = getCountVideo(document.Body);
+                count = GetCountVideo(document.Body);
 			}
 			catch (Exception er)
 			{

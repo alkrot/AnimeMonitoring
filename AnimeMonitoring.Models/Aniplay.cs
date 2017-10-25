@@ -10,7 +10,7 @@ namespace AnimeMonitoring.Models
 		{
 		}
 
-		protected override int getCountVideo(IElement document)
+		protected override int GetCountVideo(IElement document)
 		{
 			int result;
 			try
@@ -34,7 +34,7 @@ namespace AnimeMonitoring.Models
 				});
                 description = document.GetElementsByClassName("ap2-anime-description")[0].TextContent;
                 imageUrl = "http://aniplay.tv" + document.GetElementsByClassName("ap2-anime-poster")[0].GetAttribute("src");
-                count = getCountVideo(document.Body);
+                count = GetCountVideo(document.Body);
 			}
 			catch (Exception er)
 			{
