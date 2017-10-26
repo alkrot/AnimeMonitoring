@@ -175,14 +175,14 @@ namespace AnimeMonitoring
         /// <param name="path">Путь к файлу</param>
         /// <param name="datList">Список моделей</param>
         /// <param name="alList">Список ссылок</param>
-        private static void SaveBinnary(string path, List<Model> datList = null, List<string> alList = null)
+        private void SaveBinnary(string path, List<Model> datList = null, List<string> alList = null)
         {
             BinaryFormatter formater = new BinaryFormatter();
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
                 if (datList != null && datList.Count > 0) formater.Serialize(fs, datList);
                 if (alList != null && alList.Count > 0) formater.Serialize(fs, alList);
-                MessageBox.Show("Список сохранен");
+                notifyAnime.ShowBalloonTip(5000, "АнимеМониторинг", "Список сохранен", ToolTipIcon.Info);
             }
         }
 

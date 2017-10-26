@@ -1,13 +1,9 @@
 using AngleSharp;
-using AngleSharp.Dom;
 using AnimeMonitoring.Controllers;
 using AnimeMonitoring.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace AnimeMonitoring
@@ -155,6 +151,16 @@ namespace AnimeMonitoring
         {
             Settings settings = new Settings();
             settings.ShowDialog();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SaveAnime();
         }
     }
 }
