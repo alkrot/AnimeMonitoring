@@ -56,7 +56,7 @@ namespace AnimeMonitoring.Models
                 count = getCount;
                 newSeries = newS;
 			}
-			return newSeries;
+			return newS;
 		}
 
         /// <summary>

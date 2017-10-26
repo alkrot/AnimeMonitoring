@@ -57,15 +57,9 @@ namespace AnimeMonitoring
 
         private ToolStripMenuItem настройкиToolStripMenuItem;
 
-        private ToolStripMenuItem параметрыToolStripMenuItem;
-
         private ToolStripMenuItem справкаToolStripMenuItem;
 
         private ToolStripMenuItem содержаниеToolStripMenuItem;
-
-        private ToolStripMenuItem индексToolStripMenuItem;
-
-        private ToolStripMenuItem поискToolStripMenuItem;
 
         private ToolStripSeparator toolStripSeparator5;
 
@@ -126,11 +120,13 @@ namespace AnimeMonitoring
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сервисToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отметитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.какУвиденоеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выбранноеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.активномСпискеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.всеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.содержаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.индексToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.поискToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.опрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerCheckVideo = new System.Windows.Forms.Timer(this.components);
@@ -523,12 +519,13 @@ namespace AnimeMonitoring
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.выходToolStripMenuItem.Text = "Вы&ход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // сервисToolStripMenuItem
             // 
             this.сервисToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.настройкиToolStripMenuItem,
-            this.параметрыToolStripMenuItem});
+            this.отметитьToolStripMenuItem});
             this.сервисToolStripMenuItem.Name = "сервисToolStripMenuItem";
             this.сервисToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.сервисToolStripMenuItem.Text = "&Сервис";
@@ -540,18 +537,49 @@ namespace AnimeMonitoring
             this.настройкиToolStripMenuItem.Text = "&Настройки";
             this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
             // 
-            // параметрыToolStripMenuItem
+            // отметитьToolStripMenuItem
             // 
-            this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
-            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.параметрыToolStripMenuItem.Text = "&Параметры";
+            this.отметитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.какУвиденоеToolStripMenuItem});
+            this.отметитьToolStripMenuItem.Name = "отметитьToolStripMenuItem";
+            this.отметитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.отметитьToolStripMenuItem.Text = "Отметить";
+            // 
+            // какУвиденоеToolStripMenuItem
+            // 
+            this.какУвиденоеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выбранноеToolStripMenuItem,
+            this.активномСпискеToolStripMenuItem,
+            this.всеToolStripMenuItem});
+            this.какУвиденоеToolStripMenuItem.Name = "какУвиденоеToolStripMenuItem";
+            this.какУвиденоеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.какУвиденоеToolStripMenuItem.Text = "Как увиденое";
+            // 
+            // выбранноеToolStripMenuItem
+            // 
+            this.выбранноеToolStripMenuItem.Name = "выбранноеToolStripMenuItem";
+            this.выбранноеToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.выбранноеToolStripMenuItem.Text = "Выбранное";
+            this.выбранноеToolStripMenuItem.Click += new System.EventHandler(this.выбранноеToolStripMenuItem_Click);
+            // 
+            // активномСпискеToolStripMenuItem
+            // 
+            this.активномСпискеToolStripMenuItem.Name = "активномСпискеToolStripMenuItem";
+            this.активномСпискеToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.активномСпискеToolStripMenuItem.Text = "Активном списке";
+            this.активномСпискеToolStripMenuItem.Click += new System.EventHandler(this.активномСпискеToolStripMenuItem_Click);
+            // 
+            // всеToolStripMenuItem
+            // 
+            this.всеToolStripMenuItem.Name = "всеToolStripMenuItem";
+            this.всеToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.всеToolStripMenuItem.Text = "Все";
+            this.всеToolStripMenuItem.Click += new System.EventHandler(this.всеToolStripMenuItem_Click);
             // 
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.содержаниеToolStripMenuItem,
-            this.индексToolStripMenuItem,
-            this.поискToolStripMenuItem,
             this.toolStripSeparator5,
             this.опрограммеToolStripMenuItem});
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
@@ -563,18 +591,6 @@ namespace AnimeMonitoring
             this.содержаниеToolStripMenuItem.Name = "содержаниеToolStripMenuItem";
             this.содержаниеToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.содержаниеToolStripMenuItem.Text = "&Содержание";
-            // 
-            // индексToolStripMenuItem
-            // 
-            this.индексToolStripMenuItem.Name = "индексToolStripMenuItem";
-            this.индексToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.индексToolStripMenuItem.Text = "&Индекс";
-            // 
-            // поискToolStripMenuItem
-            // 
-            this.поискToolStripMenuItem.Name = "поискToolStripMenuItem";
-            this.поискToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.поискToolStripMenuItem.Text = "&Поиск";
             // 
             // toolStripSeparator5
             // 
@@ -611,6 +627,7 @@ namespace AnimeMonitoring
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "Анимониторинг";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -657,5 +674,10 @@ namespace AnimeMonitoring
         }
 
         private NotifyIcon notifyAnime;
+        private ToolStripMenuItem отметитьToolStripMenuItem;
+        private ToolStripMenuItem какУвиденоеToolStripMenuItem;
+        private ToolStripMenuItem выбранноеToolStripMenuItem;
+        private ToolStripMenuItem активномСпискеToolStripMenuItem;
+        private ToolStripMenuItem всеToolStripMenuItem;
     }
 }

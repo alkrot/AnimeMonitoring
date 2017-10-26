@@ -111,8 +111,13 @@ namespace AnimeMonitoring.Models
                 count = getCount;
                 newSeries = newS;
 			}
-			return newSeries;
+            return newS;
 		}
+
+        public void AbortedNewSeries()
+        {
+            newSeries = false;
+        }
 
 		public override string ToString()
 		{
