@@ -116,7 +116,7 @@ namespace AnimeMonitoring
                         {
                             timerCheckVideo.Enabled = false;
                             ReplaceAnime(listBox, anime);
-                            notifyAnime.ShowBalloonTip(5000, "Новая серия", anime.Name[0], ToolTipIcon.Info);
+                            notifyAnime.ShowBalloonTip(5000, "Новая серия", anime.Name[0], ToolTipIcon.None);
                             timerCheckVideo.Enabled = true;
                         }
                     }
@@ -161,6 +161,37 @@ namespace AnimeMonitoring
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveAnime();
+        }
+
+        private void выбранноеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var listBox = tabSite.SelectedTab.Controls[0] as ListBox;
+
+            if(listBox.SelectedIndex >= 0 || listBox.SelectedItems.Count > 0)
+            {
+                var animeList = listBox.SelectedItems;
+                CheckLookList(listBox, animeList);
+            }
+        }
+
+        private void активномСпискеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var listBox = tabSite.SelectedTab.Controls[0] as ListBox;
+
+            if(listBox.Items.Count > 0)
+            {
+                CheckLookList(listBox, listBox.Items);
+            }
+        }
+
+        private void всеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(TabPage tabPage in tabSite.TabPages)
+            {
+                var listBox = tabPage.Controls[0] as ListBox;
+                CheckLookList(listBox, listBox.Items,false);
+            }
+            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Все было отмечено как увиденое", ToolTipIcon.None);
         }
     }
 }

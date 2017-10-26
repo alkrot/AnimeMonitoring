@@ -182,7 +182,7 @@ namespace AnimeMonitoring
             {
                 if (datList != null && datList.Count > 0) formater.Serialize(fs, datList);
                 if (alList != null && alList.Count > 0) formater.Serialize(fs, alList);
-                notifyAnime.ShowBalloonTip(5000, "АнимеМониторинг", "Список сохранен", ToolTipIcon.Info);
+                notifyAnime.ShowBalloonTip(5000, "АнимеМониторинг", "Список сохранен", ToolTipIcon.None);
             }
         }
 
@@ -228,6 +228,46 @@ namespace AnimeMonitoring
             tStatusLabel.Text = "Проверка: " + anime.Name[0] + " Источник: " + anime.GetType().Name;
             if (anime.GetType().Name == "RutrackerForAnime") return (anime as RutrackerForAnime).IsNewVideo(document);
             return anime.IsNewVideo(document);
+        }
+
+
+        /// <summary>
+        /// Отметить как увиденно в списке выбранные элементы
+        /// </summary>
+        /// <param name="listBox">Активный список</param>
+        /// <param name="animeList">Выбранные элементы</param>
+        private void CheckLookList(ListBox listBox, ListBox.SelectedObjectCollection animeList)
+        {
+            for (int i = 0; i < animeList.Count; i++)
+            {
+                var anime = animeList[i] as Model;
+                if (anime.ToString().StartsWith("*"))
+                {
+                    anime.AbortedNewSeries();
+                    ReplaceAnime(listBox, anime);
+                }
+            }
+            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Выбранные элементы были отмечаны как увиденные", ToolTipIcon.None);
+        }
+
+        /// <summary>
+        /// Отметить все как увиденно списке
+        /// </summary>
+        /// <param name="listBox">Список</param>
+        /// <param name="items">Элементы списка</param>
+        private void CheckLookList(ListBox listBox, ListBox.ObjectCollection items, bool onlyList = true)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                var anime = items[i] as Model;
+                if (anime.ToString().StartsWith("*"))
+                {
+                    anime.AbortedNewSeries();
+                    ReplaceAnime(listBox, anime);
+                }
+            }
+            if (onlyList)
+                notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "В активном списке все отмечено как увиденое", ToolTipIcon.None);
         }
     }
 }

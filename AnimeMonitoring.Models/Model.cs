@@ -114,6 +114,11 @@ namespace AnimeMonitoring.Models
             return newS;
 		}
 
+        public void AbortedNewSeries()
+        {
+            newSeries = false;
+        }
+
 		public override string ToString()
 		{
             return (newSeries ? "*" : "") + Name.First();
