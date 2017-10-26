@@ -120,6 +120,7 @@ namespace AnimeMonitoring
                         {
                             timerCheckVideo.Enabled = false;
                             ReplaceAnime(listBox, anime);
+                            notifyAnime.ShowBalloonTip(5000, "Новая серия", anime.Name[0], ToolTipIcon.Info);
                             timerCheckVideo.Enabled = true;
                         }
                     }
