@@ -111,7 +111,7 @@ namespace AnimeMonitoring.Models
                 count = getCount;
                 newSeries = newS;
 			}
-			return newSeries;
+			return newS;
 		}
 
 		public override string ToString()

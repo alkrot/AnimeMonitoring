@@ -9,7 +9,7 @@ using AngleSharp.Dom;
 
 namespace AnimeMonitoring
 {
-    public partial class FormMain
+    partial class FormMain
     {
         Controller controller;
 
