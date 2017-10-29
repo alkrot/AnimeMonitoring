@@ -31,7 +31,7 @@ namespace AnimeMonitoring
         }
 
         /// <summary>
-        /// Определение добавить модель
+        /// Определение куда добавить модель
         /// </summary>
         /// <param name="m">Модель</param>
         public void AddView(Model m)
@@ -128,7 +128,18 @@ namespace AnimeMonitoring
             if (list.Items.Count > 0 && list.SelectedIndex >= 0 && e.KeyData == Keys.Delete && MessageBox.Show("Удалить?", ((Model)list.SelectedItem).Name[0], MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 list.Items.RemoveAt(list.SelectedIndex);
+                ShowNotify("Аниме удалено из списка");
             }
+        }
+
+        /// <summary>
+        /// Показ уведомления
+        /// </summary>
+        /// <param name="message">Сообщение</param>
+        /// <param name="icon">Тип иконки</param>
+        private void ShowNotify(string message, string title= "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
+        {
+            notifyAnime.ShowBalloonTip(timeout, title, message, icon);
         }
 
         /// <summary>
@@ -182,7 +193,7 @@ namespace AnimeMonitoring
             {
                 if (datList != null && datList.Count > 0) formater.Serialize(fs, datList);
                 if (alList != null && alList.Count > 0) formater.Serialize(fs, alList);
-                notifyAnime.ShowBalloonTip(5000, "АнимеМониторинг", "Список сохранен", ToolTipIcon.None);
+                ShowNotify("Список сохранен");
             }
         }
 
@@ -247,7 +258,7 @@ namespace AnimeMonitoring
                     ReplaceAnime(listBox, anime);
                 }
             }
-            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Выбранные элементы были отмечаны как увиденные", ToolTipIcon.None);
+            ShowNotify("Выбранные элементы были отмечаны как увиденные");
         }
 
         /// <summary>
@@ -267,7 +278,7 @@ namespace AnimeMonitoring
                 }
             }
             if (onlyList)
-                notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "В активном списке все отмечено как увиденое", ToolTipIcon.None);
+                ShowNotify("В активном списке все отмечено как увиденое");
         }
     }
 }

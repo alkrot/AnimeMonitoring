@@ -1,4 +1,5 @@
 using AngleSharp;
+using AngleSharp.Dom;
 using AnimeMonitoring.Models;
 
 namespace AnimeMonitoring.Controllers
@@ -24,6 +25,8 @@ namespace AnimeMonitoring.Controllers
 		{
             var config = Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync(url);
+
+            if (document.Body.TextContent.Length == 0) return;
 
             if (url.Contains("smotret-anime.ru"))
             {

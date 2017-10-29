@@ -71,7 +71,15 @@ namespace AnimeMonitoring
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Clipboard.SetText(((LinkLabel)sender).Text);
+                try
+                {
+                    Clipboard.Clear();
+                    Clipboard.SetText(((LinkLabel)sender).Text,TextDataFormat.Text);
+                    ShowNotify("Ссылка скопирована");
+                }catch(Exception er)
+                {
+                    ShowNotify(er.Message,er.Source,ToolTipIcon.Error);
+                }
             }
 		}
 
@@ -116,7 +124,7 @@ namespace AnimeMonitoring
                         {
                             timerCheckVideo.Enabled = false;
                             ReplaceAnime(listBox, anime);
-                            notifyAnime.ShowBalloonTip(5000, "Новая серия", anime.Name[0], ToolTipIcon.None);
+                            ShowNotify(anime.Name[0],"Новая серия",timeout: 5000);
                             timerCheckVideo.Enabled = true;
                         }
                     }
@@ -191,7 +199,7 @@ namespace AnimeMonitoring
                 var listBox = tabPage.Controls[0] as ListBox;
                 CheckLookList(listBox, listBox.Items,false);
             }
-            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Все было отмечено как увиденое", ToolTipIcon.None);
+            ShowNotify("Все было отмечено как увиденое");
         }
     }
 }

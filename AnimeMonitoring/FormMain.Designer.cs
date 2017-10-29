@@ -533,7 +533,7 @@ namespace AnimeMonitoring
             // настройкиToolStripMenuItem
             // 
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.настройкиToolStripMenuItem.Text = "&Настройки";
             this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
             // 
@@ -542,7 +542,7 @@ namespace AnimeMonitoring
             this.отметитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.какУвиденоеToolStripMenuItem});
             this.отметитьToolStripMenuItem.Name = "отметитьToolStripMenuItem";
-            this.отметитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.отметитьToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.отметитьToolStripMenuItem.Text = "Отметить";
             // 
             // какУвиденоеToolStripMenuItem
@@ -552,7 +552,7 @@ namespace AnimeMonitoring
             this.активномСпискеToolStripMenuItem,
             this.всеToolStripMenuItem});
             this.какУвиденоеToolStripMenuItem.Name = "какУвиденоеToolStripMenuItem";
-            this.какУвиденоеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.какУвиденоеToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.какУвиденоеToolStripMenuItem.Text = "Как увиденое";
             // 
             // выбранноеToolStripMenuItem
@@ -626,7 +626,7 @@ namespace AnimeMonitoring
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
-            this.Text = "Анимониторинг";
+            this.Text = "АнимеМониторинг";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
