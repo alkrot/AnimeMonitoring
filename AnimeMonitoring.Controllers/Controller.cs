@@ -1,4 +1,4 @@
-using AngleSharp;
+п»їusing AngleSharp;
 using AnimeMonitoring.Models;
 
 namespace AnimeMonitoring.Controllers
@@ -8,18 +8,18 @@ namespace AnimeMonitoring.Controllers
         private FormMain formMain;
 
         /// <summary>
-        /// Инцилиазция
+        /// РРЅС†РёР»РёР°Р·С†РёСЏ
         /// </summary>
-        /// <param name="formMain">Форма как вьюшка</param>
+        /// <param name="formMain">Р¤РѕСЂРјР° РєР°Рє РІСЊСЋС€РєР°</param>
 		public Controller(FormMain formMain)
         {
             this.formMain = formMain;
         }
 
         /// <summary>
-        /// Определение по ссылки к какой модели отнсится и добавление в список
+        /// РћРїСЂРµРґРµР»РµРЅРёРµ РїРѕ СЃСЃС‹Р»РєРё Рє РєР°РєРѕР№ РјРѕРґРµР»Рё РѕС‚РЅСЃРёС‚СЃСЏ Рё РґРѕР±Р°РІР»РµРЅРёРµ РІ СЃРїРёСЃРѕРє
         /// </summary>
-        /// <param name="url">ссылка</param>
+        /// <param name="url">СЃСЃС‹Р»РєР°</param>
         public async void AddAnime(string url)
         {
             var config = Configuration.Default.WithDefaultLoader();
