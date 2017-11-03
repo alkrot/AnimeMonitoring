@@ -10,7 +10,7 @@ namespace AnimeMonitoring.Controllers
         /// <summary>
         /// Инцилиазция
         /// </summary>
-        /// <param name="formMain">форма как вьюшка</param>
+        /// <param name="formMain">Форма как вьюшка</param>
 		public Controller(FormMain formMain)
         {
             this.formMain = formMain;
