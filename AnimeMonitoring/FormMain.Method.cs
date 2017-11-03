@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using AngleSharp.Dom;
+using System.Linq;
 
 namespace AnimeMonitoring
 {
@@ -98,6 +99,21 @@ namespace AnimeMonitoring
             int index = IndexHas(list, anime);
             list.Items.RemoveAt(index);
             list.Items.Insert(index, anime);
+            SetMarkTab(list);
+        }
+
+        /// <summary>
+        /// Отметить/снять что есть новая серия в данной вкладке
+        /// </summary>
+        /// <param name="list">Список - котнтрол</param>
+        private void SetMarkTab(ListBox list)
+        {
+            var isNewSeries = list.Items.Cast<Model>().Any(a => a.NewSeries == true);
+
+            if (isNewSeries && list.Parent.Text[0] != '*')
+                list.Parent.Text = '*' + list.Parent.Text;
+            else if (!isNewSeries && list.Parent.Text[0] == '*')
+                list.Parent.Text = list.Parent.Text.Substring(1);
         }
 
         /// <summary>
@@ -225,6 +241,13 @@ namespace AnimeMonitoring
                             controller.AddAnime(item);
                     }
                 }
+            }
+
+            var listBox = tabSite.Controls.Cast<TabPage>().ToDictionary(a => a, v => v.Controls[0]).Select(v => v.Value as ListBox);
+
+            foreach(var list in listBox)
+            {
+                SetMarkTab(list);
             }
         }
 

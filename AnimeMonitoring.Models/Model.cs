@@ -21,42 +21,17 @@ namespace AnimeMonitoring.Models
         protected bool newSeries = false;
 
         #region Свойства
-        public string Url
-        {
-            get => url;
-        }
+        public string Url => url;
 
-        public string ImageUrl
-        {
-            get
-            {
-                return imageUrl;
-            }
-        }
+        public bool NewSeries => newSeries;
 
-        public string[] Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public string ImageUrl => imageUrl;
 
-        public string Description
-        {
-            get
-            {
-                return description;
-            }
-        }
+        public string[] Name => name;
 
-        public int Count
-        {
-            get
-            {
-                return count;
-            }
-        }
+        public string Description => description;
+
+        public int Count => count;
 
         public string Info
         {

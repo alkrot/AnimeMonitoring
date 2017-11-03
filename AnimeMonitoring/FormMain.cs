@@ -2,8 +2,10 @@ using AngleSharp;
 using AnimeMonitoring.Controllers;
 using AnimeMonitoring.Models;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AnimeMonitoring
@@ -30,7 +32,7 @@ namespace AnimeMonitoring
             tUrl.Clear();
         }
 
-
+        
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
