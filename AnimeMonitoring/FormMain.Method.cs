@@ -137,7 +137,7 @@ namespace AnimeMonitoring
         /// </summary>
         /// <param name="message">Сообщение</param>
         /// <param name="icon">Тип иконки</param>
-        private void ShowNotify(string message, string title= "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
+        private void ShowNotify(string message, string title = "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
         {
             notifyAnime.ShowBalloonTip(timeout, title, message, icon);
         }
