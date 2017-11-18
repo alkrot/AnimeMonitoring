@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using AngleSharp.Dom;
+using System.Linq;
 
 namespace AnimeMonitoring
 {
@@ -31,7 +32,7 @@ namespace AnimeMonitoring
         }
 
         /// <summary>
-        /// Определение добавить модель
+        /// Определение куда добавить модель
         /// </summary>
         /// <param name="m">Модель</param>
         public void AddView(Model m)
@@ -98,6 +99,21 @@ namespace AnimeMonitoring
             int index = IndexHas(list, anime);
             list.Items.RemoveAt(index);
             list.Items.Insert(index, anime);
+            SetMarkTab(list);
+        }
+
+        /// <summary>
+        /// Отметить/снять что есть новая серия в данной вкладке
+        /// </summary>
+        /// <param name="list">Список - котнтрол</param>
+        private void SetMarkTab(ListBox list)
+        {
+            var isNewSeries = list.Items.Cast<Model>().Any(a => a.NewSeries == true);
+
+            if (isNewSeries && list.Parent.Text[0] != '*')
+                list.Parent.Text = '*' + list.Parent.Text;
+            else if (!isNewSeries && list.Parent.Text[0] == '*')
+                list.Parent.Text = list.Parent.Text.Substring(1);
         }
 
         /// <summary>
@@ -128,7 +144,18 @@ namespace AnimeMonitoring
             if (list.Items.Count > 0 && list.SelectedIndex >= 0 && e.KeyData == Keys.Delete && MessageBox.Show("Удалить?", ((Model)list.SelectedItem).Name[0], MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 list.Items.RemoveAt(list.SelectedIndex);
+                ShowNotify("Аниме удалено из списка");
             }
+        }
+
+        /// <summary>
+        /// Показ уведомления
+        /// </summary>
+        /// <param name="message">Сообщение</param>
+        /// <param name="icon">Тип иконки</param>
+        private void ShowNotify(string message, string title = "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
+        {
+            notifyAnime.ShowBalloonTip(timeout, title, message, icon);
         }
 
         /// <summary>
@@ -182,7 +209,7 @@ namespace AnimeMonitoring
             {
                 if (datList != null && datList.Count > 0) formater.Serialize(fs, datList);
                 if (alList != null && alList.Count > 0) formater.Serialize(fs, alList);
-                notifyAnime.ShowBalloonTip(5000, "АнимеМониторинг", "Список сохранен", ToolTipIcon.None);
+                ShowNotify("Список сохранен");
             }
         }
 
@@ -214,6 +241,13 @@ namespace AnimeMonitoring
                             controller.AddAnime(item);
                     }
                 }
+            }
+
+            var listBox = tabSite.Controls.Cast<TabPage>().ToDictionary(a => a, v => v.Controls[0]).Select(v => v.Value as ListBox);
+
+            foreach(var list in listBox)
+            {
+                SetMarkTab(list);
             }
         }
 
@@ -247,7 +281,7 @@ namespace AnimeMonitoring
                     ReplaceAnime(listBox, anime);
                 }
             }
-            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Выбранные элементы были отмечаны как увиденные", ToolTipIcon.None);
+            ShowNotify("Выбранные элементы были отмечаны как увиденные");
         }
 
         /// <summary>
@@ -267,7 +301,7 @@ namespace AnimeMonitoring
                 }
             }
             if (onlyList)
-                notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "В активном списке все отмечено как увиденое", ToolTipIcon.None);
+                ShowNotify("В активном списке все отмечено как увиденое");
         }
     }
 }

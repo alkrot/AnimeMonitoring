@@ -2,52 +2,54 @@ using AngleSharp;
 using AnimeMonitoring.Controllers;
 using AnimeMonitoring.Models;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AnimeMonitoring
 {
     public partial class FormMain : Form
-	{
-		public FormMain()
-		{
+    {
+        public FormMain()
+        {
             InitializeComponent();
             controller = new Controller(this);
-		}
+        }
 
         private void btnAdd_Click(object sender, EventArgs e)
-		{
-			string[] lines = tUrl.Lines;
-			for (int i = 0; i < lines.Length; i++)
-			{
-				string url = lines[i];
-				if (!string.IsNullOrEmpty(url))
-				{
+        {
+            string[] lines = tUrl.Lines;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string url = lines[i];
+                if (!string.IsNullOrEmpty(url))
+                {
                     controller.AddAnime(url);
-				}
-			}
+                }
+            }
             tUrl.Clear();
-		}
+        }
 
-		
+        
 
-		private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
-		{
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             SaveAnime();
-            foreach(TabPage tabPage in tabSite.TabPages)
+            foreach (TabPage tabPage in tabSite.TabPages)
             {
                 var listBox = tabPage.Controls[0] as ListBox;
-                while(listBox.FindString("*") > -1)
+                while (listBox.FindString("*") > -1)
                 {
                     int index = listBox.FindString("*");
                     ReplaceAnime(listBox, listBox.Items[index] as Model);
                 }
             }
-		}
+        }
 
-		private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
-		{
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "*.dat|*.dat|*.al|*.al";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -57,47 +59,56 @@ namespace AnimeMonitoring
             }
         }
 
-		private void FormMain_Load(object sender, EventArgs e)
-		{
+        private void FormMain_Load(object sender, EventArgs e)
+        {
             OpenAnime();
             tabSite.SelectedIndex = 0;
-		}
+        }
 
-		private void linkAnimeUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
+        private void linkAnimeUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
             if (e.Button == MouseButtons.Left)
             {
                 Process.Start(((LinkLabel)sender).Text);
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Clipboard.SetText(((LinkLabel)sender).Text);
+                try
+                {
+                    Clipboard.Clear();
+                    Clipboard.SetText(((LinkLabel)sender).Text, TextDataFormat.Text);
+                    ShowNotify("Ссылка скопирована");
+                }
+                catch (Exception er)
+                {
+                    ShowNotify(er.Message, er.Source, ToolTipIcon.Error);
+                }
             }
-		}
+        }
 
-		private void label1_Click(object sender, EventArgs e)
-		{
-			if (splitContainer1.SplitterDistance > 25)
-			{
+        private void label1_Click(object sender, EventArgs e)
+        {
+            if (splitContainer1.SplitterDistance > 25)
+            {
                 tUrl.Enabled = false;
                 splitContainer1.SplitterDistance = 25;
-			}
-			else
-			{
+            }
+            else
+            {
                 tUrl.Enabled = true;
                 splitContainer1.SplitterDistance = 200;
-			}
-		}
+            }
+        }
 
-		private void labelUrlAnime_MouseEnter(object sender, EventArgs e)
-		{
-			((Label)sender).BackColor = Color.FromArgb(50, Color.LightBlue);
-		}
+        private void labelUrlAnime_MouseEnter(object sender, EventArgs e)
+        {
+            ((Label)sender).BackColor = Color.FromArgb(50, Color.LightBlue);
+        }
 
-		private void labelUrlAnime_MouseLeave(object sender, EventArgs e)
-		{
-			((Label)sender).BackColor = Color.WhiteSmoke;
-		}
+        private void labelUrlAnime_MouseLeave(object sender, EventArgs e)
+        {
+            ((Label)sender).BackColor = Color.WhiteSmoke;
+        }
 
         private async void timerCheckVideo_Tick(object sender, EventArgs e)
         {
@@ -116,12 +127,13 @@ namespace AnimeMonitoring
                         {
                             timerCheckVideo.Enabled = false;
                             ReplaceAnime(listBox, anime);
-                            notifyAnime.ShowBalloonTip(5000, "Новая серия", anime.Name[0], ToolTipIcon.None);
+                            ShowNotify(anime.Name[0], "Новая серия", timeout: 5000);
                             timerCheckVideo.Enabled = true;
                         }
                     }
                 }
-            }catch
+            }
+            catch
             {
 
             }
@@ -131,7 +143,7 @@ namespace AnimeMonitoring
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "*.dat|*.dat|*.al|*.al";
-            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = saveFileDialog.FileName;
                 SaveAnime(filename);
@@ -167,7 +179,7 @@ namespace AnimeMonitoring
         {
             var listBox = tabSite.SelectedTab.Controls[0] as ListBox;
 
-            if(listBox.SelectedIndex >= 0 || listBox.SelectedItems.Count > 0)
+            if (listBox.SelectedIndex >= 0 || listBox.SelectedItems.Count > 0)
             {
                 var animeList = listBox.SelectedItems;
                 CheckLookList(listBox, animeList);
@@ -178,7 +190,7 @@ namespace AnimeMonitoring
         {
             var listBox = tabSite.SelectedTab.Controls[0] as ListBox;
 
-            if(listBox.Items.Count > 0)
+            if (listBox.Items.Count > 0)
             {
                 CheckLookList(listBox, listBox.Items);
             }
@@ -186,12 +198,12 @@ namespace AnimeMonitoring
 
         private void всеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(TabPage tabPage in tabSite.TabPages)
+            foreach (TabPage tabPage in tabSite.TabPages)
             {
                 var listBox = tabPage.Controls[0] as ListBox;
-                CheckLookList(listBox, listBox.Items,false);
+                CheckLookList(listBox, listBox.Items, false);
             }
-            notifyAnime.ShowBalloonTip(3000, "АнимеМониторинг", "Все было отмечено как увиденое", ToolTipIcon.None);
+            ShowNotify("Все было отмечено как увиденое");
         }
     }
 }
