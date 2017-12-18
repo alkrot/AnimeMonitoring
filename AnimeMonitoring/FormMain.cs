@@ -32,7 +32,7 @@ namespace AnimeMonitoring
             tUrl.Clear();
         }
 
-        
+
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -43,7 +43,7 @@ namespace AnimeMonitoring
                 while (listBox.FindString("*") > -1)
                 {
                     int index = listBox.FindString("*");
-                    ReplaceAnime(listBox, listBox.Items[index] as Model);
+                    listBox.ReplaceAnime(listBox.Items[index] as Model);
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace AnimeMonitoring
                         if (RefreshSeries(anime, document))
                         {
                             timerCheckVideo.Enabled = false;
-                            ReplaceAnime(listBox, anime);
+                            listBox.ReplaceAnime(anime);
                             ShowNotify(anime.Name[0], "Новая серия", timeout: 5000);
                             timerCheckVideo.Enabled = true;
                         }
