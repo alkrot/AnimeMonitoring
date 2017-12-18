@@ -22,7 +22,7 @@ namespace AnimeMonitoring
         /// <param name="tab">Вкладка - контрол</param>
         internal void AddViewListTab(Model anime, ListBox list, TabPage tab)
         {
-            if (!IsHas(list, anime))
+            if (!list.AnimeHasList(anime))
             {
                 timerCheckVideo.Enabled = false;
                 list.Items.Add(anime);
@@ -52,68 +52,10 @@ namespace AnimeMonitoring
                 case "WOA":
                     AddViewListTab(m, lWOA, tabWOA);
                     break;
-                case "RutrackerForAnime":
+               case "RutrackerForAnime":
                     AddViewListTab(m, lRutracker, tabRutracker);
                     break;
             }
-        }
-
-        /// <summary>
-        /// Проверка есть ли в списке модель с сотвествующей ссылкой
-        /// </summary>
-        /// <param name="list">Список - контрол</param>
-        /// <param name="anime">Модел</param>
-        /// <returns>Булевое значение</returns>
-        private bool IsHas(ListBox list, Model anime)
-        {
-            foreach (Model item in list.Items)
-                if (item.Url == anime.Url)
-                    return true;
-            return false;
-        }
-
-        /// <summary>
-        /// Вернуть индекс нужной модели в списке
-        /// </summary>
-        /// <param name="list">Список - контрол</param>
-        /// <param name="anime">Модел</param>
-        /// <returns>Индекс от 0, если не найден то -1</returns>
-        private int IndexHas(ListBox list, Model anime)
-        {
-            for (int i = 0; i < list.Items.Count; i++)
-            {
-                Model model = (Model)list.Items[i];
-                if (model.Name == anime.Name)
-                    return i;
-            }
-            return -1;
-        }
-
-        /// <summary>
-        /// Обновление модели в списке
-        /// </summary>
-        /// <param name="list">Список - контрол</param>
-        /// <param name="anime">Модел</param>
-        private void ReplaceAnime(ListBox list, Model anime)
-        {
-            int index = IndexHas(list, anime);
-            list.Items.RemoveAt(index);
-            list.Items.Insert(index, anime);
-            SetMarkTab(list);
-        }
-
-        /// <summary>
-        /// Отметить/снять что есть новая серия в данной вкладке
-        /// </summary>
-        /// <param name="list">Список - котнтрол</param>
-        private void SetMarkTab(ListBox list)
-        {
-            var isNewSeries = list.Items.Cast<Model>().Any(a => a.NewSeries == true);
-
-            if (isNewSeries && list.Parent.Text[0] != '*')
-                list.Parent.Text = '*' + list.Parent.Text;
-            else if (!isNewSeries && list.Parent.Text[0] == '*')
-                list.Parent.Text = list.Parent.Text.Substring(1);
         }
 
         /// <summary>
@@ -153,7 +95,7 @@ namespace AnimeMonitoring
         /// </summary>
         /// <param name="message">Сообщение</param>
         /// <param name="icon">Тип иконки</param>
-        private void ShowNotify(string message, string title = "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
+        public void ShowNotify(string message, string title = "АнимеМониторинг", ToolTipIcon icon = ToolTipIcon.None, int timeout = 3000)
         {
             notifyAnime.ShowBalloonTip(timeout, title, message, icon);
         }
@@ -247,7 +189,7 @@ namespace AnimeMonitoring
 
             foreach(var list in listBox)
             {
-                SetMarkTab(list);
+                list.SetMarkTab();
             }
         }
 
@@ -278,7 +220,7 @@ namespace AnimeMonitoring
                 if (anime.ToString().StartsWith("*"))
                 {
                     anime.AbortedNewSeries();
-                    ReplaceAnime(listBox, anime);
+                    listBox.ReplaceAnime(anime);
                 }
             }
             ShowNotify("Выбранные элементы были отмечаны как увиденные");
@@ -297,7 +239,7 @@ namespace AnimeMonitoring
                 if (anime.ToString().StartsWith("*"))
                 {
                     anime.AbortedNewSeries();
-                    ReplaceAnime(listBox, anime);
+                    listBox.ReplaceAnime(anime);
                 }
             }
             if (onlyList)

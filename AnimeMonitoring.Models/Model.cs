@@ -1,5 +1,6 @@
 using AngleSharp.Dom;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -105,6 +106,17 @@ namespace AnimeMonitoring.Models
             {
                 writer.WriteLine(txt);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var model = (Model)obj;
+            return url == model.url;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1227826894 + EqualityComparer<string>.Default.GetHashCode(url);
         }
     }
 }
