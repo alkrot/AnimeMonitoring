@@ -286,6 +286,7 @@ namespace AnimeMonitoring
             this.tabSite.SelectedIndex = 0;
             this.tabSite.Size = new System.Drawing.Size(212, 451);
             this.tabSite.TabIndex = 0;
+            this.tabSite.SelectedIndexChanged += new System.EventHandler(this.tabChanged);
             // 
             // tabAniplay
             // 
