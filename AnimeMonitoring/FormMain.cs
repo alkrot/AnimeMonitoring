@@ -2,10 +2,8 @@ using AngleSharp;
 using AnimeMonitoring.Controllers;
 using AnimeMonitoring.Models;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace AnimeMonitoring
@@ -204,6 +202,17 @@ namespace AnimeMonitoring
                 CheckLookList(listBox, listBox.Items, false);
             }
             ShowNotify("Все было отмечено как увиденое");
+        }
+
+        private void tabChanged(object sender, EventArgs e)
+        {
+            var tabCtrl = (TabControl) sender;
+            var tabPage = tabCtrl.SelectedTab;
+            var list = tabPage.Controls[0] as ListBox;
+            if(list.SelectedItem != null)
+            {
+                ShowAnimeDescription(list);
+            }
         }
     }
 }

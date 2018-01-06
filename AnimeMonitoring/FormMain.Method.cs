@@ -68,11 +68,20 @@ namespace AnimeMonitoring
             ListBox list = (ListBox)sender;
             if (list.Items.Count > 0 && list.SelectedIndex >= 0)
             {
-                Model model = (Model)list.SelectedItem;
-                pPoster.ImageLocation = model.ImageUrl;
-                rDescription.Text = model.Info;
-                linkAnimeUrl.Text = model.Url;
+                ShowAnimeDescription(list);
             }
+        }
+
+        /// <summary>
+        /// Показ иноформации о аниме в интерфейсе
+        /// </summary>
+        /// <param name="list">Список откуда брать</param>
+        private void ShowAnimeDescription(ListBox list)
+        {
+            Model model = (Model)list.SelectedItem;
+            pPoster.ImageLocation = model.ImageUrl;
+            rDescription.Text = model.Info;
+            linkAnimeUrl.Text = model.Url;
         }
 
         /// <summary>
